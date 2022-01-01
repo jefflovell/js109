@@ -90,7 +90,17 @@ console.log(change());
 console.log(greeting);
 ```
 
-### Answer: TBD
+### Answer:
+> console.log(change());
+Hi!
+undefined
+> console.log(greeting);
+Hello!
+undefined
+
+The concepts being shown here are `variable shadowing` and `function arguments`.
+
+There are a couple things to note:  First, at a glance we should expect this code to throw an error because our `greeting` identifier is being declared and initialized with `const` and the function name clearly indicates its purpose is to 'change the greeting'.  However, on line 10 when we log the invocation of `change()`, we do not pass an argument.  The function will first look for a local variable, which it finds in the `undeclared` variable 'greeting', with a value of `'Hi!'`.  Since the name of that variable is shadowing the global variable `greeting` it prints that value.  `Consts` cant be re-assigned, it's illegal and throws a `TypeError`.  The fact that we're not getting a `TypeError` proves the shadowing.  On the next line, we're simply printing the value of the `const` greeting which hasn't changed.
 
 ## References vs Values Example 1: Pass-By-Reference
 
@@ -252,6 +262,16 @@ console.log(words);
 ```
 
 ### Answer: TBD
+
+> console.log(pluralize(words));
+[ [ 'hunters', 'spears' ], [ 'gatherers', 'sacks' ] ]
+undefined
+> console.log(words);
+[ [ 'hunters', 'spears' ], [ 'gatherers', 'sacks' ] ]
+
+The concepts being shown here is `mutation` via `pass-by-reference`, and `shallow copy`.
+
+This problem shows an input of a 2-D array to an array mapping function where each element of the input has an `'s'` concatenated to it before returning the array.  `array.prototype.map()` is an array iteration and transformation method which is called directly on an array and executes a `callbackFn` for each element in the calling array. The `callbackFn` of `map()` performs a transformation on each element passed to it and passes it back to `map()`. Once every element has been iterated over, `map()` returns a new array to the caller, populated with the transformed values for each element of the calling array. **The return array is always equal in length to the calling array.** This also applies to sparse arrays. This method does not mutate the caller. So we would expect that when logged, `words` would not be mutated.  However, our input array is 2-D, so the elements which `map()` is iterating over are, themselves arrays.  Those arrays are added to the new array that `map()` outputs, but are still references to the inner-arrays that the input contains, hence the mutation. 
 
 ## Iterators Example 4: array.prototype.filter()
 
